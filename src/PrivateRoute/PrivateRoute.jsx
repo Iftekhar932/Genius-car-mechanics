@@ -22,7 +22,14 @@ const PrivateRoute = ({ children }) => {
   // navigate(from, { replace: true });
 
   if (loading) {
-    return <h1>Loading 🍎🍎🍎</h1>;
+    return (
+      <>
+        <span className="loading loading-infinity loading-xs"></span>
+        <span className="loading loading-spinner loading-sm"></span>
+        <span className="loading loading-bars loading-md"></span>
+        <span className="loading loading-ball loading-lg"></span>
+      </>
+    );
   }
 
   if (user?.email == null || user?.uid == null) {

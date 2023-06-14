@@ -7,6 +7,7 @@ const themes = Themes.daisyui.themes;
 
 const NavBar = () => {
   const { user, setUser, signOutHandler } = useContext(firebaseContext);
+
   const selectedTheme = localStorage.getItem("selectedTheme");
   const [theme, setTheme] = useState(selectedTheme);
 
@@ -15,6 +16,7 @@ const NavBar = () => {
     return document.querySelector("html").setAttribute("data-theme", theme);
   }, [theme]);
 
+  // set state value for selected theme
   const themeSetter = (e) => {
     localStorage.setItem("selectedTheme", e.target.innerText.toLowerCase());
     setTheme(e.target.innerText.toLowerCase());
@@ -24,16 +26,18 @@ const NavBar = () => {
     signOutHandler()
       .then(() => {
         setUser(null);
+        // setLoading(false);
       })
       .catch((err) => console.log(err, "NavBar.jsx line 29 error"));
   };
 
   const menu = (
-    <>
+    <div className="flex">
       <li>
-        <Link to="/orders">Home</Link>
+        <Link to="/">Home</Link>
       </li>
-    </>
+      <li>{(user?.email || user?.uid) && <Link to="/orders">Orders</Link>}</li>
+    </div>
   );
 
   return (
@@ -75,7 +79,7 @@ const NavBar = () => {
         </ul>
       </div>
       <div className="navbar-end">
-        {user?.email && (
+        {user?.email ? (
           <>
             {/*   <a className="btn" onClick={signOut}>
               Sign Out
@@ -83,6 +87,12 @@ const NavBar = () => {
             <a className="btn" onClick={signOutClickHandler}>
               Sign Out
             </a>
+          </>
+        ) : (
+          <>
+            <Link to="/login" className="btn">
+              Sign In
+            </Link>
           </>
         )}
         <div className="flex-none">

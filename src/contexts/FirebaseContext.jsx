@@ -16,6 +16,7 @@ import { app } from "../firebase/firebase.init";
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
 
+// context
 export const firebaseContext = createContext();
 
 const FirebaseContext = ({ children }) => {
@@ -35,7 +36,7 @@ const FirebaseContext = ({ children }) => {
   const signOutHandler = () => {
     alert("Signed Out");
     setLoading(true);
-    setUser(null);
+    // setUser(null);
     return signOut(auth);
   };
 
@@ -51,20 +52,21 @@ const FirebaseContext = ({ children }) => {
 
   useEffect(() => {
     const unsubscribe = () => {
-      onAuthStateChanged(auth, (currentUser) => {
+      return onAuthStateChanged(auth, (currentUser) => {
         if (currentUser) {
           // User is signed in, see docs for a list of available properties
           // https://firebase.google.com/docs/reference/js/auth.user
           const uid = currentUser.uid;
-          setUser(currentUser);
           setLoading(false);
+          setUser(currentUser);
           // ...
-        } else {
+        }
+        /*  else {
           // User is signed out
           // ...
           setLoading(true);
           setUser(null);
-        }
+        } */
       });
     };
     return () => unsubscribe();

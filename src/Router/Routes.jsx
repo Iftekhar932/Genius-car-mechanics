@@ -15,14 +15,11 @@ const routes = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: (
-          <PrivateRoute>
-            <Home />
-          </PrivateRoute>
-        ),
+        element: <Home />,
       },
     ],
   },
+
   {
     path: "/login",
     element: <Login />,
@@ -40,8 +37,8 @@ const routes = createBrowserRouter([
         <Orders />
       </PrivateRoute>
     ),
-    loader: () => {
-      return fetch("http://localhost:5000/orders");
+    loader: async () => {
+      return fetch(`http://localhost:5000/orders`);
     },
   },
 

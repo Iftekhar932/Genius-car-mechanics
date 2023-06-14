@@ -26,8 +26,20 @@ const Login = () => {
     emailLoginHandler(email, password)
       .then((userCredential) => {
         const createdUser = userCredential.user;
-        setUser(createdUser);
 
+        //  get jsonWebToken
+        fetch("http://localhost:5000/jwt", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: createdUser.email }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            localStorage.setItem("jsonWebToken", data.token);
+          })
+          .catch((error) => console.log("login.jsx jwt api line38", error));
+
+        setUser(createdUser);
         e.target.reset();
         // navigate("/");
         navigate(from, { replace: true });

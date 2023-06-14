@@ -20,11 +20,7 @@ const SingleOrder = ({ orders }) => {
     e.target.innerText = orders?.status;
     console.log(orders);
   };
-  /* 
 
-
-
-*/
   const deletionClickHandler = (e, orderID) => {
     e.target.parentNode.parentNode.classList.add("hidden");
     fetch(`http://localhost:5000/orders/${orderID}`, { method: "DELETE" })
