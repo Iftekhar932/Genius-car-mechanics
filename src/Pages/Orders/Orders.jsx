@@ -2,10 +2,11 @@ import React, { useContext } from "react";
 import { useLoaderData } from "react-router-dom";
 import SingleOrder from "../SingleOrder/SingleOrder";
 import { firebaseContext } from "../../contexts/FirebaseContext";
+
 const Orders = () => {
   const { user } = useContext(firebaseContext);
   const orderedData = useLoaderData();
-  const orderData = orderedData.filter((order) => order.email == user?.email); // filter only logged in user's ordered services to display, I didn't load data by useEffect, so this is the alternative of the query
+  // const orderData = orderedData?.filter((order) => order.email == user?.email); // filter only logged in user's ordered services to display, I didn't load data by useEffect, so this is the alternative of the query
 
   return (
     <div className="overflow-x-auto my-10">
@@ -22,7 +23,7 @@ const Orders = () => {
           </tr>
         </thead>
         <tbody>
-          {orderData.map((orders) => {
+          {orderedData.map((orders) => {
             return <SingleOrder orders={orders} key={orders._id} />;
           })}
         </tbody>

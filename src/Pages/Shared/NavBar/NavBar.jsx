@@ -38,8 +38,9 @@ const NavBar = () => {
       </li>
       <li>
         {(user?.email || user?.uid) && (
+          <Link to={`/orders?email=${user?.email}`}>Orders</Link>
           // <Link to={`/orders/${user?.email}`}>Orders</Link>
-          <Link to={`/orders`}>Orders</Link>
+          // <Link to={`/orders`}>Orders</Link>
         )}
       </li>
     </div>

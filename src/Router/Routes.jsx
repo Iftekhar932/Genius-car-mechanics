@@ -37,11 +37,18 @@ const routes = createBrowserRouter([
         <Orders />
       </PrivateRoute>
     ),
-    loader: ({ params }) => {
+    loader: async ({ request }) => {
+      const userEmailFromReq = request.url;
+      const userEmail = userEmailFromReq.slice(
+        userEmailFromReq.indexOf("=") + 1,
+        userEmailFromReq.length
+      );
       const tkn = localStorage.getItem("jsonWebToken");
-      return fetch(`http://localhost:5000/orders`, {
+      return await fetch(`http://localhost:5000/orders?email=${userEmail}`, {
         headers: { authorization: `Bearer ${tkn}` },
-      });
+      })
+        .then((response) => response.json())
+        .then((data) => data);
     },
   },
 
