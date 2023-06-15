@@ -96,6 +96,7 @@ const Login = () => {
                 placeholder="email"
                 name="email"
                 className="input input-bordered"
+                defaultValue="@gmail.com"
                 required
               />
             </div>

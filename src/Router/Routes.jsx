@@ -47,8 +47,18 @@ const routes = createBrowserRouter([
       return await fetch(`http://localhost:5000/orders?email=${userEmail}`, {
         headers: { authorization: `Bearer ${tkn}` },
       })
-        .then((response) => response.json())
-        .then((data) => data);
+        .then((res) => {
+          console.log(res.status);
+          if (res.status == (401 || 403)) {
+            return window.location.replace("/login"); // can't use 'useNavigate()' hook as it is not in a component
+          }
+          return res.json();
+        })
+        .then((data) => {
+          console.log(data);
+          return data;
+        })
+        .catch((err) => console.log(err));
     },
   },
 
