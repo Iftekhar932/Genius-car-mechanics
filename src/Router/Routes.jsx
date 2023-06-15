@@ -37,8 +37,11 @@ const routes = createBrowserRouter([
         <Orders />
       </PrivateRoute>
     ),
-    loader: async () => {
-      return fetch(`http://localhost:5000/orders`);
+    loader: ({ params }) => {
+      const tkn = localStorage.getItem("jsonWebToken");
+      return fetch(`http://localhost:5000/orders`, {
+        headers: { authorization: `Bearer ${tkn}` },
+      });
     },
   },
 
