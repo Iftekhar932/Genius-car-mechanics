@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 // import { FcGoogle } from "react-icons/fc";
 import { FaGoogle } from "react-icons/fa";
 // FaGoogle is the alternative
@@ -18,6 +18,12 @@ const Login = () => {
     googleSignInHandler2,
   } = useContext(firebaseContext);
 
+  // if user is logged in navigate to home page
+  if (user?.email) {
+    return navigate("/");
+  }
+
+  // user login function
   const submitHandler = (e) => {
     e.preventDefault();
     const email = e.target.email.value;
@@ -25,6 +31,11 @@ const Login = () => {
 
     emailLoginHandler(email, password)
       .then((userCredential) => {
+        /* 
+        if (localStorage.getItem("userLoggedInStatus")) {
+          localStorage.removeItem("userLoggedInStatus");
+        } */
+
         const createdUser = userCredential.user;
 
         //  get jsonWebToken
@@ -37,7 +48,7 @@ const Login = () => {
           .then((data) => {
             localStorage.setItem("jsonWebToken", data.token);
           })
-          .catch((error) => console.log("login.jsx jwt api line38", error));
+          .catch((error) => console.log("login.jsx jwt api line 51", error));
 
         setUser(createdUser);
         e.target.reset();
@@ -59,6 +70,9 @@ const Login = () => {
   const googleSignInClickHandler = () => {
     googleSignInHandler()
       .then((result) => {
+        /* if (localStorage.getItem("userLoggedInStatus")) {
+          localStorage.removeItem("userLoggedInStatus");
+        } */
         setUser(result);
         // navigate("/");
         navigate(from, { replace: true });
@@ -70,7 +84,9 @@ const Login = () => {
   const googleSignInClickHandler2 = () => {
     googleSignInHandler2()
       .then((result) => {
-        console.log(result);
+        /* if (localStorage.getItem("userLoggedInStatus")) {
+          localStorage.removeItem("userLoggedInStatus");
+        } */
         setUser(result);
       })
       .catch((err) => console.log("login.jsx line 62", err.code, err.message));
@@ -96,7 +112,7 @@ const Login = () => {
                 placeholder="email"
                 name="email"
                 className="input input-bordered"
-                defaultValue="@gmail.com"
+                defaultValue="iftekhar@gmail.com"
                 required
               />
             </div>
@@ -108,6 +124,7 @@ const Login = () => {
                 type="password"
                 placeholder="password"
                 name="password"
+                defaultValue="123123"
                 className="input input-bordered"
               />
               <label className="label">
@@ -127,13 +144,13 @@ const Login = () => {
             </div>
           </form>
           <div className="form-control">
-            {!user?.email && (
+            {user?.email == null && (
               <button
                 onClick={googleSignInClickHandler}
                 className="btn btn-primary hover:text-white gap-1"
               >
                 <FaGoogle size="1rem" onClick={googleSignInClickHandler} />
-                Sign up with google
+                Sign In with google
               </button>
             )}
           </div>

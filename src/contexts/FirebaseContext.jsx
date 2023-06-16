@@ -34,9 +34,12 @@ const FirebaseContext = ({ children }) => {
   };
 
   const signOutHandler = () => {
-    alert("Signed Out");
     setLoading(true);
     // setUser(null);
+    if (localStorage.getItem("userLoggedInStatus")) {
+      localStorage.removeItem("userLoggedInStatus");
+    }
+    localStorage.removeItem("jsonWebToken");
     return signOut(auth);
   };
 

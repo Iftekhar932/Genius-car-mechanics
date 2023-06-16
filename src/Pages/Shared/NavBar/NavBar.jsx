@@ -22,6 +22,12 @@ const NavBar = () => {
     setTheme(e.target.innerText.toLowerCase());
   };
 
+  if (localStorage.getItem("userLoggedInStatus")) {
+    localStorage.removeItem("userLoggedInStatus");
+    signOutHandler();
+    return alert("signed out");
+  }
+
   const signOutClickHandler = () => {
     signOutHandler()
       .then(() => {

@@ -44,18 +44,22 @@ const routes = createBrowserRouter([
         userEmailFromReq.length
       );
       const tkn = localStorage.getItem("jsonWebToken");
+
       return await fetch(`http://localhost:5000/orders?email=${userEmail}`, {
         headers: { authorization: `Bearer ${tkn}` },
       })
         .then((res) => {
-          console.log(res.status);
-          if (res.status == (401 || 403)) {
-            return window.location.replace("/login"); // can't use 'useNavigate()' hook as it is not in a component
+          if (res.status === (401 || 403)) {
+            localStorage.setItem("userLoggedInStatus", true);
+
+            return window.location.replace("/"); // can't use 'useNavigate()' hook as it is not in a component
           }
           return res.json();
         })
         .then((data) => {
-          console.log(data);
+          if (data.signUserOut) {
+            localStorage.setItem("userLoggedInStatus", data.signUserOut);
+          }
           return data;
         })
         .catch((err) => console.log(err));

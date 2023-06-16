@@ -23,7 +23,7 @@ const Orders = () => {
           </tr>
         </thead>
         <tbody>
-          {orderedData.map((orders) => {
+          {orderedData?.map((orders) => {
             return <SingleOrder orders={orders} key={orders._id} />;
           })}
         </tbody>
