@@ -31,10 +31,9 @@ const Login = () => {
 
     emailLoginHandler(email, password)
       .then((userCredential) => {
-        /* 
         if (localStorage.getItem("userLoggedInStatus")) {
           localStorage.removeItem("userLoggedInStatus");
-        } */
+        }
 
         const createdUser = userCredential.user;
 
@@ -48,7 +47,9 @@ const Login = () => {
           .then((data) => {
             localStorage.setItem("jsonWebToken", data.token);
           })
-          .catch((error) => console.log("login.jsx jwt api line 51", error));
+          .catch((error) =>
+            console.log("login.jsx jwt api line 51", error.code, error.message)
+          );
 
         setUser(createdUser);
         e.target.reset();
@@ -70,24 +71,24 @@ const Login = () => {
   const googleSignInClickHandler = () => {
     googleSignInHandler()
       .then((result) => {
-        /* if (localStorage.getItem("userLoggedInStatus")) {
+        if (localStorage.getItem("userLoggedInStatus")) {
           localStorage.removeItem("userLoggedInStatus");
-        } */
+        }
         setUser(result);
-        // navigate("/");
         navigate(from, { replace: true });
       })
-      .catch((err) => console.log("login.jsx line 53", err.code, err.message));
+      .catch((err) => console.log("login.jsx line 79", err.code, err.message));
   };
 
-  //  this one uses 'signInWithRedirect()'
+  //  this one uses 'signInWithRedirect()' this function isn't used anywhere yet
   const googleSignInClickHandler2 = () => {
     googleSignInHandler2()
       .then((result) => {
-        /* if (localStorage.getItem("userLoggedInStatus")) {
+        if (localStorage.getItem("userLoggedInStatus")) {
           localStorage.removeItem("userLoggedInStatus");
-        } */
+        }
         setUser(result);
+        navigate(from, { replace: true });
       })
       .catch((err) => console.log("login.jsx line 62", err.code, err.message));
   };
@@ -112,7 +113,6 @@ const Login = () => {
                 placeholder="email"
                 name="email"
                 className="input input-bordered"
-                defaultValue="iftekhar@gmail.com"
                 required
               />
             </div>
@@ -124,7 +124,6 @@ const Login = () => {
                 type="password"
                 placeholder="password"
                 name="password"
-                defaultValue="123123"
                 className="input input-bordered"
               />
               <label className="label">

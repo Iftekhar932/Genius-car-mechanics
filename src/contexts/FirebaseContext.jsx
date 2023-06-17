@@ -35,7 +35,6 @@ const FirebaseContext = ({ children }) => {
 
   const signOutHandler = () => {
     setLoading(true);
-    // setUser(null);
     if (localStorage.getItem("userLoggedInStatus")) {
       localStorage.removeItem("userLoggedInStatus");
     }
