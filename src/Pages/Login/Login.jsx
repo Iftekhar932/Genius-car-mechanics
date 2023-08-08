@@ -4,6 +4,7 @@ import { FaGoogle } from "react-icons/fa";
 // FaGoogle is the alternative
 import { firebaseContext } from "../../contexts/FirebaseContext";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import SocialLogin from "../Shared/SocialLogin/SocialLogin";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -74,10 +75,26 @@ const Login = () => {
         if (localStorage.getItem("userLoggedInStatus")) {
           localStorage.removeItem("userLoggedInStatus");
         }
-        setUser(result);
+
+        const currentUser = result.user;
+
+        fetch("http://localhost:5000/jwt", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify({ currentUser: currentUser.email }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            // console.log(data);
+            localStorage.setItem("jsonWebToken", data.token);
+          });
+
+        setUser(currentUser);
         navigate(from, { replace: true });
       })
-      .catch((err) => console.log("login.jsx line 79", err.code, err.message));
+      .catch((err) => console.log("login.jsx line 91", err.code, err.message));
   };
 
   //  this one uses 'signInWithRedirect()' this function isn't used anywhere yet
@@ -142,7 +159,7 @@ const Login = () => {
               </button>
             </div>
           </form>
-          <div className="form-control">
+          {/* <div className="form-control">
             {user?.email == null && (
               <button
                 onClick={googleSignInClickHandler}
@@ -152,7 +169,8 @@ const Login = () => {
                 Sign In with google
               </button>
             )}
-          </div>
+          </div> */}
+          <SocialLogin />
         </div>
       </div>
     </div>

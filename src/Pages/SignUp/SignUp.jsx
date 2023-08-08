@@ -1,8 +1,8 @@
 import React, { useContext, useState } from "react";
-
 import { firebaseContext } from "../../contexts/FirebaseContext";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaGoogle } from "react-icons/fa";
+import { setAuthToken } from "../../apis/auth";
 
 const SignUp = () => {
   const { emailSignUpHandler, user, setUser, googleSignInHandler } =
@@ -24,7 +24,8 @@ const SignUp = () => {
         const createdUser = userCredential.user;
         createdUser.displayName = username;
 
-        console.log(createdUser, "line 31 singUp.jsx");
+        setAuthToken(createdUser);
+
         setUser(createdUser);
         navigate(from, { replace: true });
       })
@@ -42,7 +43,10 @@ const SignUp = () => {
   const googleSignInClickHandler = () => {
     googleSignInHandler()
       .then((data) => {
-        console.log(data);
+        // console.log(data);
+
+        setAuthToken(data.user);
+
         setUser(data);
         navigate(from, { replace: true });
       })

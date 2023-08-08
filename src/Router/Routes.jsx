@@ -49,9 +49,8 @@ const routes = createBrowserRouter([
         headers: { authorization: `Bearer ${tkn}` },
       })
         .then((res) => {
-          if (res.status === (401 || 403)) {
+          if (res.status === (401 || 403 || 404)) {
             localStorage.setItem("userLoggedInStatus", true);
-
             return window.location.replace("/"); // can't use 'useNavigate()' hook as it is not in a component
           }
           return res.json();

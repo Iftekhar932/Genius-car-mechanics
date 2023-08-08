@@ -63,12 +63,6 @@ const FirebaseContext = ({ children }) => {
           setUser(currentUser);
           // ...
         }
-        /*  else {
-          // User is signed out
-          // ...
-          setLoading(true);
-          setUser(null);
-        } */
       });
     };
     return () => unsubscribe();

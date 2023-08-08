@@ -23,7 +23,9 @@ const SingleOrder = ({ orders }) => {
 
   const deletionClickHandler = (e, orderID) => {
     e.target.parentNode.parentNode.classList.add("hidden");
-    fetch(`http://localhost:5000/orders/${orderID}`, { method: "DELETE" })
+    fetch(`http://localhost:5000/orders/${orderID}`, {
+      method: "DELETE",
+    })
       .then((response) => response.json())
       .then((data) => {
         console.log(data);

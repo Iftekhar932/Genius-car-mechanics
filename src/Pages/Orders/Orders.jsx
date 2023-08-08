@@ -5,8 +5,10 @@ import { firebaseContext } from "../../contexts/FirebaseContext";
 
 const Orders = () => {
   const { user } = useContext(firebaseContext);
-  const orderedData = useLoaderData();
-  // const orderData = orderedData?.filter((order) => order.email == user?.email); // filter only logged in user's ordered services to display, I didn't load data by useEffect, so this is the alternative of the query
+  let orderedData = useLoaderData();
+  if (Boolean(orderedData[0]) == false) {
+    return (orderedData = []);
+  }
 
   return (
     <div className="overflow-x-auto my-10">
